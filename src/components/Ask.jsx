@@ -1,14 +1,15 @@
 import React, { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
 import Error from './Error';
 
-const Ask = () => {
+const Ask = ({ saveBudget, saveRemaining, updateAsk }) => {
   // Define State
   const [amount, saveAmount] = useState(0);
   const [error, saveError] = useState(false); // No error start
 
   // Function read budget
   const defineBudget = (e) => {
-    saveAmount(parseInt(e.target.value));
+    saveAmount(parseInt(e.target.value, 10));
   };
 
   // Submit for define budget
@@ -22,8 +23,10 @@ const Ask = () => {
     }
 
     // Post validation
-
     saveError(false);
+    saveBudget(amount);
+    saveRemaining(amount);
+    updateAsk(false);
   };
 
   return (
@@ -47,6 +50,12 @@ const Ask = () => {
       </form>
     </Fragment>
   );
+};
+
+Ask.propTypes = {
+  saveBudget: PropTypes.func.isRequired,
+  saveRemaining: PropTypes.func.isRequired,
+  updateAsk: PropTypes.func.isRequired,
 };
 
 export default Ask;
